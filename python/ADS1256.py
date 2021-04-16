@@ -1,9 +1,7 @@
 import config
 import RPi.GPIO as GPIO
 
-
 ScanMode = 0
-
 
 # gain channel
 ADS1256_GAIN_E = {'ADS1256_GAIN_1' : 0, # GAIN   1
