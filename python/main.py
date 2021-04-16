@@ -13,9 +13,16 @@ import motioncontroller_pb2
 import motioncontroller_pb2_grpc
 
 class Greeter (motioncontroller_pb2_grpc.DeviceService):
+    def __init__(self):
+        self.ADC = ADS1256.ADS1256()
+        self.DAC = DAC8532.DAC8532()
+        ADC.ADS1256_init()
     def SayHello(self, request, context):
         return motioncontroller_pb2.HelloReply(message = 'Test %s!' % request.name)
-
+    def OutVoltage(self, request, context):
+        DAC.DAC8532_Out_Voltage(DAC8532.channel_A, request.channel_voltage)
+        return motioncontroller_pb2.CommandResult(command_result = 'Set voltage : %s' % request.channel_name)
+        
 def mcserver():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     motioncontroller_pb2_grpc.add_DeviceServiceServicer_to_server(Greeter(), server)
@@ -46,7 +53,7 @@ try:
         temp = (ADC_Value[0]>>7)*5.0/0xffff
         print ("DAC :",temp)
         print ("\33[10A")
-        DAC.DAC8532_Out_Voltage(DAC8532.channel_A, temp / 10.0)
+        #DAC.DAC8532_Out_Voltage(DAC8532.channel_A, temp )
         DAC.DAC8532_Out_Voltage(DAC8532.channel_B, 3.3 - temp)
 
 except :
