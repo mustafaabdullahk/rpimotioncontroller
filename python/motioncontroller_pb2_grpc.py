@@ -20,7 +20,7 @@ class DeviceServiceStub(object):
                 request_serializer=motioncontroller__pb2.HelloRequest.SerializeToString,
                 response_deserializer=motioncontroller__pb2.HelloReply.FromString,
                 )
-        self.GetDigitalValues = channel.unary_unary(
+        self.GetDigitalValues = channel.unary_stream(
                 '/motioncontroller.DeviceService/GetDigitalValues',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=motioncontroller__pb2.Analog2Digital.FromString,
@@ -83,7 +83,7 @@ def add_DeviceServiceServicer_to_server(servicer, server):
                     request_deserializer=motioncontroller__pb2.HelloRequest.FromString,
                     response_serializer=motioncontroller__pb2.HelloReply.SerializeToString,
             ),
-            'GetDigitalValues': grpc.unary_unary_rpc_method_handler(
+            'GetDigitalValues': grpc.unary_stream_rpc_method_handler(
                     servicer.GetDigitalValues,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                     response_serializer=motioncontroller__pb2.Analog2Digital.SerializeToString,
@@ -141,7 +141,7 @@ class DeviceService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/motioncontroller.DeviceService/GetDigitalValues',
+        return grpc.experimental.unary_stream(request, target, '/motioncontroller.DeviceService/GetDigitalValues',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             motioncontroller__pb2.Analog2Digital.FromString,
             options, channel_credentials,

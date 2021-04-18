@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x16motioncontroller.proto\x12\x10motioncontroller\x1a\x1bgoogle/protobuf/empty.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\'\n\rCommandResult\x12\x16\n\x0e\x63ommand_result\x18\x01 \x01(\t\"?\n\x0e\x44igital2Analog\x12\x14\n\x0c\x63hannel_name\x18\x01 \x01(\t\x12\x17\n\x0f\x63hannel_voltage\x18\x02 \x01(\x02\"&\n\x0e\x41nalog2Digital\x12\x14\n\x0c\x63hannel_name\x18\x01 \x01(\t\"7\n\x14\x41nalog2DigitalConfig\x12\x0c\n\x04gain\x18\x01 \x01(\x05\x12\x11\n\tdata_rate\x18\x02 \x01(\x05\".\n\x18SetDiffChnAnalog2Digital\x12\x12\n\nchannel_id\x18\x01 \x01(\x05\x32\xc5\x03\n\rDeviceService\x12J\n\x08SayHello\x12\x1e.motioncontroller.HelloRequest\x1a\x1c.motioncontroller.HelloReply\"\x00\x12N\n\x10GetDigitalValues\x12\x16.google.protobuf.Empty\x1a .motioncontroller.Analog2Digital\"\x00\x12Q\n\nOutVoltage\x12 .motioncontroller.Digital2Analog\x1a\x1f.motioncontroller.CommandResult\"\x00\x12\x64\n\x17\x43onfigureAnalog2Digital\x12&.motioncontroller.Analog2DigitalConfig\x1a\x1f.motioncontroller.CommandResult\"\x00\x12_\n\x0eSetDiffChannel\x12*.motioncontroller.SetDiffChnAnalog2Digital\x1a\x1f.motioncontroller.CommandResult\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x16motioncontroller.proto\x12\x10motioncontroller\x1a\x1bgoogle/protobuf/empty.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\'\n\rCommandResult\x12\x16\n\x0e\x63ommand_result\x18\x01 \x01(\t\"?\n\x0e\x44igital2Analog\x12\x14\n\x0c\x63hannel_name\x18\x01 \x01(\t\x12\x17\n\x0f\x63hannel_voltage\x18\x02 \x01(\x02\"\xe8\x01\n\x0e\x41nalog2Digital\x12\x19\n\x11\x63hannel_voltage_1\x18\x01 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_2\x18\x02 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_3\x18\x03 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_4\x18\x04 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_5\x18\x05 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_6\x18\x06 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_7\x18\x07 \x01(\x02\x12\x19\n\x11\x63hannel_voltage_8\x18\x08 \x01(\x02\"7\n\x14\x41nalog2DigitalConfig\x12\x0c\n\x04gain\x18\x01 \x01(\x05\x12\x11\n\tdata_rate\x18\x02 \x01(\x05\".\n\x18SetDiffChnAnalog2Digital\x12\x12\n\nchannel_id\x18\x01 \x01(\x05\x32\xc7\x03\n\rDeviceService\x12J\n\x08SayHello\x12\x1e.motioncontroller.HelloRequest\x1a\x1c.motioncontroller.HelloReply\"\x00\x12P\n\x10GetDigitalValues\x12\x16.google.protobuf.Empty\x1a .motioncontroller.Analog2Digital\"\x00\x30\x01\x12Q\n\nOutVoltage\x12 .motioncontroller.Digital2Analog\x1a\x1f.motioncontroller.CommandResult\"\x00\x12\x64\n\x17\x43onfigureAnalog2Digital\x12&.motioncontroller.Analog2DigitalConfig\x1a\x1f.motioncontroller.CommandResult\"\x00\x12_\n\x0eSetDiffChannel\x12*.motioncontroller.SetDiffChnAnalog2Digital\x1a\x1f.motioncontroller.CommandResult\"\x00\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -171,9 +171,58 @@ _ANALOG2DIGITAL = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='channel_name', full_name='motioncontroller.Analog2Digital.channel_name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='channel_voltage_1', full_name='motioncontroller.Analog2Digital.channel_voltage_1', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_2', full_name='motioncontroller.Analog2Digital.channel_voltage_2', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_3', full_name='motioncontroller.Analog2Digital.channel_voltage_3', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_4', full_name='motioncontroller.Analog2Digital.channel_voltage_4', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_5', full_name='motioncontroller.Analog2Digital.channel_voltage_5', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_6', full_name='motioncontroller.Analog2Digital.channel_voltage_6', index=5,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_7', full_name='motioncontroller.Analog2Digital.channel_voltage_7', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='channel_voltage_8', full_name='motioncontroller.Analog2Digital.channel_voltage_8', index=7,
+      number=8, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -189,8 +238,8 @@ _ANALOG2DIGITAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=240,
-  serialized_end=278,
+  serialized_start=241,
+  serialized_end=473,
 )
 
 
@@ -228,8 +277,8 @@ _ANALOG2DIGITALCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=280,
-  serialized_end=335,
+  serialized_start=475,
+  serialized_end=530,
 )
 
 
@@ -260,8 +309,8 @@ _SETDIFFCHNANALOG2DIGITAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=337,
-  serialized_end=383,
+  serialized_start=532,
+  serialized_end=578,
 )
 
 DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
@@ -331,8 +380,8 @@ _DEVICESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=386,
-  serialized_end=839,
+  serialized_start=581,
+  serialized_end=1036,
   methods=[
   _descriptor.MethodDescriptor(
     name='SayHello',
