@@ -18,6 +18,7 @@ class Greeter(motioncontroller_pb2_grpc.DeviceService):
         ADC = ADS1256.ADS1256()
         DAC = DAC8532.DAC8532()
         ADC.ADS1256_SetDiffChannal(4)
+        ADC.ADS1256_SetMode(1)
         ADC.ADS1256_init()
 
     def SayHello(self, request, context):
@@ -60,6 +61,7 @@ try:
     ADC = ADS1256.ADS1256()
     DAC = DAC8532.DAC8532()
     ADC.ADS1256_SetDiffChannal(4)
+    ADC.ADS1256_SetMode(1)
     ADC.ADS1256_init()
     serverThread = threading.Thread(target=mcserver)
     serverThread.start()
