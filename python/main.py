@@ -61,7 +61,7 @@ try:
     ADC.ADS1256_init()
     serverThread = threading.Thread(target=mcserver)
     serverThread.start()
-    logging.basicConfig()
+    logging.basicConfig(filename= 'cmod_log', encoding= 'utf-8', level= logging.DEBUG)
     DAC.DAC8532_Out_Voltage(0x30, 3)
     DAC.DAC8532_Out_Voltage(0x34, 3)
     while 1:
@@ -74,7 +74,14 @@ try:
         print("5 ADC = %lf" % (ADC_Value[5] * 5.0 / 0x7FFFFF))
         print("6 ADC = %lf" % (ADC_Value[6] * 5.0 / 0x7FFFFF))
         print("7 ADC = %lf" % (ADC_Value[7] * 5.0 / 0x7FFFFF))
-
+        logging.debug((ADC_Value[0] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[1] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[2] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[3] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[4] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[5] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[6] * 5.0 / 0x7FFFFF))
+        logging.debug((ADC_Value[7] * 5.0 / 0x7FFFFF))
         temp = (ADC_Value[0] >> 7) * 5.0 / 0xFFFF
         print("DAC :", temp)
         print("\33[10A")
