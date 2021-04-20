@@ -17,7 +17,6 @@ class Greeter(motioncontroller_pb2_grpc.DeviceService):
     def __init__(self):
         ADC = ADS1256.ADS1256()
         DAC = DAC8532.DAC8532()
-        ADC.ADS1256_SetDiffChannal(4)
         ADC.ADS1256_SetMode(1)
         ADC.ADS1256_init()
 
@@ -60,8 +59,6 @@ def mcserver():
 try:
     ADC = ADS1256.ADS1256()
     DAC = DAC8532.DAC8532()
-    ADC.ADS1256_SetDiffChannal(4)
-    ADC.ADS1256_SetMode(1)
     ADC.ADS1256_init()
     serverThread = threading.Thread(target=mcserver)
     serverThread.start()
@@ -82,7 +79,6 @@ try:
         print("\33[10A")
         # DAC.DAC8532_Out_Voltage(DAC8532.channel_A, temp )
         DAC.DAC8532_Out_Voltage(DAC8532.channel_B, 3.3 - temp)
-
 except:
     GPIO.cleanup()
     print("\r\nProgram end     ")
