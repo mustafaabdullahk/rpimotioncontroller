@@ -42,20 +42,22 @@ int spidriver::spiSetup()
 	return 0;
 }
 
-int spidriver::spiWriteByte(unsigned char *data, int len)
+int spidriver::spiTransfer(unsigned char *data, int len)
 {
 	struct spi_ioc_transfer spi;
 	memset(&spi, 0, sizeof(spi));
-		spi.tx_buf = (unsigned long)data;
+	spi.tx_buf = (unsigned long)data;
 	spi.rx_buf = (unsigned long)data;
 	spi.len = len;
-	spi.delay_usecs = 0; //TO DO add spi delay arg
+	spi.delay_usecs = 0; // TO DO add spi delay arg
 	spi.speed_hz = spiSpeed;
 	spi.bits_per_word = spiBit;
-	if (ioctl(fd, SPI_IOC_MESSAGE(1), &spi) < 0) {
+	int value = ioctl(fd, SPI_IOC_MESSAGE(1), &spi);
+	if (value < 0) {
 		gWarn("The SPI device has writing error,  %s", strerror(fd));
+		return errno;
 	}
-	return 0;
+	return value;
 }
 
 bool spidriver::spiIsConnected() const

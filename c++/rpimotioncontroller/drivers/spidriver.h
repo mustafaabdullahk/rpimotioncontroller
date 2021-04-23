@@ -17,7 +17,8 @@ class spidriver
 public:
 	spidriver(int channel, int mode, int bit, int speed);
 	int spiSetup();
-	int spiWriteByte(unsigned char* data, int len);
+	int spiTransfer(unsigned char* data, int len);
+	int spiReadByte();
 	bool spiIsConnected() const;
 protected:
 	int fd;
