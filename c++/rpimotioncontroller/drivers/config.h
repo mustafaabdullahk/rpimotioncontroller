@@ -6,6 +6,8 @@
 #define CS_DAC_PIN 23
 #define DRDY_PIN   17
 
+#include "spidriver.h"
+
 class config
 {
 public:
@@ -14,6 +16,8 @@ public:
 	int digitalRead(int pin);
 	int spiWriteByte(uint8_t data);
 	uint8_t spiReadByte();
+protected:
+	spidriver *aa;
 };
 
 #endif // CONFIG_H
