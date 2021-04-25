@@ -7,6 +7,7 @@
 #define DRDY_PIN   17
 
 #include "spidriver.h"
+#include "gpiodriver.h"
 
 class config
 {
@@ -17,7 +18,8 @@ public:
 	int spiWriteByte(uint8_t data);
 	uint8_t spiReadByte();
 protected:
-	spidriver *aa;
+	spidriver *spi;
+	gpiodriver gpio;
 };
 
 #endif // CONFIG_H
