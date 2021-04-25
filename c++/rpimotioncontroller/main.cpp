@@ -41,26 +41,40 @@ void runMyServer(motioncontroller::DeviceService::Service *myserv)
 
 class RaspberryServer : public motioncontroller::DeviceService::Service{
 
+protected:
+	dac8532 dac;
+	ads1256 adc;
+
 public:
 	grpc::Status SayHello(grpc::ServerContext *context, const motioncontroller::HelloRequest *request, motioncontroller::HelloReply *response)
 	{
+	response->set_message(request->name());
+	return grpc::Status::OK;
 	}
 	grpc::Status GetDigitalValues(grpc::ServerContext *context, const google::protobuf::Empty *request, ::grpc::ServerWriter<motioncontroller::Analog2Digital> *writer)
 	{
+		motioncontroller::Analog2Digital msg;
+		while (1) {
+			adc.getAll();
+			for (int c = 1; c < 8; ++c) {
+				msg.GetReflection()->SetFloat(
+					&msg, msg.GetDescriptor()->FindFieldByNumber(c),
+					adc.adcBuffer[c] * 5.0 / 0x7fffff);
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(20));
+			bool resp_status = writer->Write(msg);
+			if (!resp_status)
+				break;
+		}
+		return grpc::Status::OK;
 	}
 	grpc::Status OutVoltage(grpc::ServerContext *context, const motioncontroller::Digital2Analog *request, motioncontroller::CommandResult *response)
 	{
-	dac8532 dac;
-	ads1256 adc;
-	dac.outVoltage(channel_A, request->channel_voltage());
-	dac.outVoltage(channel_B, request->channel_voltage());
-	std::cout << "set voltage : " << request->channel_voltage() << std::endl;
-	response->set_command_result("ok");
-	adc.getAll();
-	for (int i = 0; i < 8; i++) {
-		printf("%d %f\r\n", i, adc.adcBuffer[i] * 5.0 / 0x7fffff);
-	}
-	return grpc::Status::OK;
+		dac.outVoltage(channel_A, request->channel_voltage());
+		dac.outVoltage(channel_B, request->channel_voltage());
+		gWarn("set voltage: %s V", std::to_string(request->channel_voltage()).data());
+		response->set_command_result("ok");
+		return grpc::Status::OK;
 	}
 	grpc::Status ConfigureAnalog2Digital(grpc::ServerContext *context, const motioncontroller::Analog2DigitalConfig *request, motioncontroller::CommandResult *response)
 	{
@@ -69,24 +83,6 @@ public:
 	{
 	}
 };
-/*
-grpc::Status RaspberryServer::OutVoltage(grpc::ServerContext *context, const motioncontroller::Digital2Analog *request, motioncontroller::CommandResult *response)
-{
-//	dac8532 dac;
-	ads1256 adc;
-//	dac.outVoltage(channel_A, request->channel_voltage());
-//	dac.outVoltage(channel_B, request->channel_voltage());
-	std::cout << "set voltage : " << request->channel_voltage() << std::endl;
-	response->set_command_result("ok");
-	adc.getAll();
-	for (int i = 0; i < 8; i++) {
-		printf("%d %f\r\n", i, adc.adcBuffer[i] * 5.0 / 0x7fffff);
-	}
-	return grpc::Status::OK;
-}*/
-
-
-
 
 int main(int argc, char *argv[])
 {
