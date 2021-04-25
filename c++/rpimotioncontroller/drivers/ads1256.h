@@ -10,21 +10,21 @@ class ads1256 : public QObject
 	Q_OBJECT
 public:
 	explicit ads1256(QObject *parent = nullptr);
-	qint8 init();
+	quint8 init();
 	void reset();
-	void setMode(qint8 mode);
-	void writeCommand(qint8 cmd);
-	void writeRegister(qint8 reg, qint8 data);
+	void setMode(quint8 mode);
+	void writeCommand(quint8 cmd);
+	void writeRegister(quint8 reg, quint8 data);
 	void dataReady();
 	qint8 readChipID();
 	void setChannel(qint8 chnl);
 	void setDiffChannel(qint8 chnl);
-	qint8 readData(qint8 reg);
-	void configure(qint8 gain, qint8 drate);
-	qint32 readAnalogValue();
-	qint32 getChannelValue(qint8 channel);
+	quint8 readData(quint8 reg);
+	void configure(quint8 gain, quint8 drate);
+	quint32 readAnalogValue();
+	quint32 getChannelValue(qint8 channel);
 	void getAll();
-	qint32 adcBuffer[8];
+	quint32 adcBuffer[8];
 protected:
 	config cfgHangle;
 	int scanMode = 1;

@@ -7,7 +7,7 @@ ads1256::ads1256(QObject *parent) : QObject(parent)
 	init();
 }
 
-qint8 ads1256::init()
+quint8 ads1256::init()
 {
 	reset();
 	if (readChipID() == 3) {
@@ -29,19 +29,19 @@ void ads1256::reset()
 	cfgHangle.digitalWrite(RST_PIN, 1);
 }
 
-void ads1256::setMode(qint8 mode)
+void ads1256::setMode(quint8 mode)
 {
 	
 }
 
-void ads1256::writeCommand(qint8 cmd)
+void ads1256::writeCommand(quint8 cmd)
 {
 	cfgHangle.digitalWrite(CS_PIN, 0);
 	cfgHangle.spiWriteByte(cmd);
 	cfgHangle.digitalWrite(CS_PIN, 1);
 }
 
-void ads1256::writeRegister(qint8 reg, qint8 data)
+void ads1256::writeRegister(quint8 reg, quint8 data)
 {
 	cfgHangle.digitalWrite(CS_PIN, 0);
 	cfgHangle.spiWriteByte(CMD_WREG | reg);
@@ -52,10 +52,19 @@ void ads1256::writeRegister(qint8 reg, qint8 data)
 
 void ads1256::dataReady()
 {
-	if (cfgHangle.digitalRead(DRDY_PIN) != 0) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	int var;
+	for (var = 0; var < 4000000; ++var) {
+		if (cfgHangle.digitalRead(DRDY_PIN) == 0) {
+			break;
+		}
+	}
+	if (var >= 4000000) {
 		gInfoS() << "Time out 100ms";
 	}
+//	if (cfgHangle.digitalRead(DRDY_PIN) != 0) {
+//		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//		gInfoS() << "Time out 100ms";
+//	}
 }
 
 qint8 ads1256::readChipID()
@@ -86,7 +95,7 @@ void ads1256::setDiffChannel(qint8 chnl)
 	}
 }
 
-qint8 ads1256::readData(qint8 reg)
+quint8 ads1256::readData(quint8 reg)
 {
 	cfgHangle.digitalWrite(CS_PIN, 0);
 	cfgHangle.spiWriteByte(CMD_RREG | reg);
@@ -97,7 +106,7 @@ qint8 ads1256::readData(qint8 reg)
 	return data;
 }
 
-void ads1256::configure(qint8 gain, qint8 drate)
+void ads1256::configure(quint8 gain, quint8 drate)
 {
 	dataReady();
 	cfgHangle.digitalWrite(CS_PIN, 0);
@@ -110,10 +119,10 @@ void ads1256::configure(qint8 gain, qint8 drate)
 	cfgHangle.digitalWrite(CS_PIN, 1);
 }
 
-qint32 ads1256::readAnalogValue()
+quint32 ads1256::readAnalogValue()
 {
 	dataReady();
-	qint8 buffer[3] = {0, 0, 0};
+	quint8 buffer[3] = {0, 0, 0};
 	cfgHangle.digitalWrite(CS_PIN, 0);
 	cfgHangle.spiWriteByte(CMD_RDATA);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -121,18 +130,18 @@ qint32 ads1256::readAnalogValue()
 	buffer[1] = cfgHangle.spiReadByte();
 	buffer[2] = cfgHangle.spiReadByte();
 	cfgHangle.digitalWrite(CS_PIN, 1);
-	qint32 data = 0;
-	data = ((qint32)buffer[0] << 16) & 0x00FF0000;
-	data |= ((qint32)buffer[1] << 8);
+	quint32 data = 0;
+	data = (buffer[0] << 16) & 0x00FF0000;
+	data |= (buffer[1] << 8);
 	data |= buffer[2];
 	if (data & 0x800000)
 		data &= 0xFF000000;
 	return data;
 }
 
-qint32 ads1256::getChannelValue(qint8 channel)
+quint32 ads1256::getChannelValue(qint8 channel)
 {
-	qint32 value = 0;
+	quint32 value = 0;
 	dataReady();
 	if (scanMode == 0) {
 		if (channel >= 8) {
