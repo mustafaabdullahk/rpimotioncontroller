@@ -26,7 +26,7 @@ public:
 	void getAll();
 	quint32 adcBuffer[8];
 protected:
-	config cfgHangle;
+//	config cfgHangle;
 	int scanMode = 1;
 
 public:

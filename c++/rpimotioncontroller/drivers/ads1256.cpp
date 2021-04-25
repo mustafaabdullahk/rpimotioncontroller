@@ -1,5 +1,6 @@
 #include "ads1256.h"
 #include "3rdparty/debug.h"
+#include "drivercontext.h"
 #include <thread>
 
 ads1256::ads1256(QObject *parent) : QObject(parent)
@@ -22,11 +23,11 @@ quint8 ads1256::init()
 
 void ads1256::reset()
 {
-	cfgHangle.digitalWrite(RST_PIN, 1);
+	DriverContext::instance().Configure()->digitalWrite(RST_PIN, 1);
 	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	cfgHangle.digitalWrite(RST_PIN, 0);
+	DriverContext::instance().Configure()->digitalWrite(RST_PIN, 0);
 	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	cfgHangle.digitalWrite(RST_PIN, 1);
+	DriverContext::instance().Configure()->digitalWrite(RST_PIN, 1);
 }
 
 void ads1256::setMode(quint8 mode)
@@ -36,32 +37,32 @@ void ads1256::setMode(quint8 mode)
 
 void ads1256::writeCommand(quint8 cmd)
 {
-	cfgHangle.digitalWrite(CS_PIN, 0);
-	cfgHangle.spiWriteByte(cmd);
-	cfgHangle.digitalWrite(CS_PIN, 1);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 0);
+	DriverContext::instance().Configure()->spiWriteByte(cmd);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 1);
 }
 
 void ads1256::writeRegister(quint8 reg, quint8 data)
 {
-	cfgHangle.digitalWrite(CS_PIN, 0);
-	cfgHangle.spiWriteByte(CMD_WREG | reg);
-	cfgHangle.spiWriteByte(0x00);
-	cfgHangle.spiWriteByte(data);
-	cfgHangle.digitalWrite(CS_PIN, 1);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 0);
+	DriverContext::instance().Configure()->spiWriteByte(CMD_WREG | reg);
+	DriverContext::instance().Configure()->spiWriteByte(0x00);
+	DriverContext::instance().Configure()->spiWriteByte(data);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 1);
 }
 
 void ads1256::dataReady()
 {
 	int var;
 	for (var = 0; var < 4000000; ++var) {
-		if (cfgHangle.digitalRead(DRDY_PIN) == 0) {
+		if (DriverContext::instance().Configure()->digitalRead(DRDY_PIN) == 0) {
 			break;
 		}
 	}
 	if (var >= 4000000) {
 		gInfoS() << "Time out 100ms";
 	}
-//	if (cfgHangle.digitalRead(DRDY_PIN) != 0) {
+//	if (DriverContext::instance().Configure()->digitalRead(DRDY_PIN) != 0) {
 //		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 //		gInfoS() << "Time out 100ms";
 //	}
@@ -97,39 +98,39 @@ void ads1256::setDiffChannel(qint8 chnl)
 
 quint8 ads1256::readData(quint8 reg)
 {
-	cfgHangle.digitalWrite(CS_PIN, 0);
-	cfgHangle.spiWriteByte(CMD_RREG | reg);
-	cfgHangle.spiWriteByte(0x00);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 0);
+	DriverContext::instance().Configure()->spiWriteByte(CMD_RREG | reg);
+	DriverContext::instance().Configure()->spiWriteByte(0x00);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	qint8 data = cfgHangle.spiReadByte();
-	cfgHangle.digitalWrite(CS_PIN, 1);
+	qint8 data = DriverContext::instance().Configure()->spiReadByte();
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 1);
 	return data;
 }
 
 void ads1256::configure(quint8 gain, quint8 drate)
 {
 	dataReady();
-	cfgHangle.digitalWrite(CS_PIN, 0);
-	cfgHangle.spiWriteByte(CMD_WREG | 0);
-	cfgHangle.spiWriteByte(0x03);
-	cfgHangle.spiWriteByte((0<<3) | (1<<2) | (0<<1));
-	cfgHangle.spiWriteByte(0x08);
-	cfgHangle.spiWriteByte((0 << 5) | (0 << 3) | (gain << 0));
-	cfgHangle.spiWriteByte(drate);
-	cfgHangle.digitalWrite(CS_PIN, 1);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 0);
+	DriverContext::instance().Configure()->spiWriteByte(CMD_WREG | 0);
+	DriverContext::instance().Configure()->spiWriteByte(0x03);
+	DriverContext::instance().Configure()->spiWriteByte((0<<3) | (1<<2) | (0<<1));
+	DriverContext::instance().Configure()->spiWriteByte(0x08);
+	DriverContext::instance().Configure()->spiWriteByte((0 << 5) | (0 << 3) | (gain << 0));
+	DriverContext::instance().Configure()->spiWriteByte(drate);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 1);
 }
 
 quint32 ads1256::readAnalogValue()
 {
 	dataReady();
 	quint8 buffer[3] = {0, 0, 0};
-	cfgHangle.digitalWrite(CS_PIN, 0);
-	cfgHangle.spiWriteByte(CMD_RDATA);
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 0);
+	DriverContext::instance().Configure()->spiWriteByte(CMD_RDATA);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	buffer[0] = cfgHangle.spiReadByte();
-	buffer[1] = cfgHangle.spiReadByte();
-	buffer[2] = cfgHangle.spiReadByte();
-	cfgHangle.digitalWrite(CS_PIN, 1);
+	buffer[0] = DriverContext::instance().Configure()->spiReadByte();
+	buffer[1] = DriverContext::instance().Configure()->spiReadByte();
+	buffer[2] = DriverContext::instance().Configure()->spiReadByte();
+	DriverContext::instance().Configure()->digitalWrite(CS_PIN, 1);
 	quint32 data = 0;
 	data = (buffer[0] << 16) & 0x00FF0000;
 	data |= (buffer[1] << 8);
