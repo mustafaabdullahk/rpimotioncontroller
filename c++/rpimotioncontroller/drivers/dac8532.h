@@ -8,6 +8,7 @@
 
 #include <QObject>
 
+
 class dac8532 : public QObject
 {
 	Q_OBJECT

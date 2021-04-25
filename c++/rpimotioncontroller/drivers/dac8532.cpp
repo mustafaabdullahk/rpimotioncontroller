@@ -1,4 +1,5 @@
 #include "dac8532.h"
+#include"drivercontext.h"
 #include "config.h"
 
 dac8532::dac8532(QObject *parent) : QObject(parent)
@@ -7,13 +8,13 @@ dac8532::dac8532(QObject *parent) : QObject(parent)
 
 void dac8532::configModule(uint8_t channel, uint16_t data)
 {
-	config cfg;
-	cfg.digitalWrite(CS_DAC_PIN, 1);
-	cfg.digitalWrite(CS_DAC_PIN, 0);
-	cfg.spiWriteByte(channel);
-	cfg.spiWriteByte((data >> 8));
-	cfg.spiWriteByte((data & 0xff));
-	cfg.digitalWrite(CS_DAC_PIN, 1);
+	//config cfg;
+	DriverContext::instance().Configure()->digitalWrite(CS_DAC_PIN, 1);
+	DriverContext::instance().Configure()->digitalWrite(CS_DAC_PIN, 0);
+	DriverContext::instance().Configure()->spiWriteByte(channel);
+	DriverContext::instance().Configure()->spiWriteByte((data >> 8));
+	DriverContext::instance().Configure()->spiWriteByte((data & 0xff));
+	DriverContext::instance().Configure()->digitalWrite(CS_DAC_PIN, 1);
 }
 
 void dac8532::outVoltage(uint8_t channel, float voltage)
