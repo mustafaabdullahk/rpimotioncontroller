@@ -32,7 +32,12 @@ void ads1256::reset()
 
 void ads1256::setMode(quint8 mode)
 {
-	
+	if (mode = SINGLE_END) {
+		scanMode = 0;
+	}
+	if (mode = DIFF_CHN) {
+		scanMode = 1;
+	}
 }
 
 void ads1256::writeCommand(quint8 cmd)

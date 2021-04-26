@@ -88,6 +88,7 @@ public:
 		CMD_STANDBY = 0xFD,	 // Begin Standby Mode 1111   1101 (FDh)
 		CMD_RESET = 0xFE,	 // Reset to Power-Up Values 1111   1110 (FEh)
 	};
+	enum SCAN { SINGLE_END, DIFF_CHN };
 };
 
 #endif // ADS1256_H
