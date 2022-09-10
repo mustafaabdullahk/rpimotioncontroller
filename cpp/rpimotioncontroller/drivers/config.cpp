@@ -1,7 +1,7 @@
 #include "config.h"
 #include "3rdparty/debug.h"
-#include "drivers/gpiodriver.h"
-#include "drivers/spidriver.h"
+#include "gpiodriver.h"
+#include "spidriver.h"
 
 #include <QDebug>
 

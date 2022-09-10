@@ -3,8 +3,6 @@
 
 #include <QObject>
 
-#include "config.h"
-
 class ads1256 : public QObject
 {
 	Q_OBJECT
@@ -25,6 +23,7 @@ public:
 	quint32 getChannelValue(qint8 channel);
 	void getAll();
 	quint32 adcBuffer[8];
+
 protected:
 //	config cfgHangle;
 	int scanMode = 1;

@@ -1,5 +1,5 @@
 #include "dac8532.h"
-#include"drivercontext.h"
+#include"../drivercontext.h"
 #include "config.h"
 
 dac8532::dac8532(QObject *parent) : QObject(parent)

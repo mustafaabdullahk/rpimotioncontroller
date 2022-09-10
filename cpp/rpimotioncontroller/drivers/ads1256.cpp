@@ -1,7 +1,9 @@
 #include "ads1256.h"
-#include "3rdparty/debug.h"
-#include "drivercontext.h"
+#include "config.h"
+#include "../drivercontext.h"
+
 #include <thread>
+#include <3rdparty/debug.h>
 
 ads1256::ads1256(QObject *parent) : QObject(parent)
 {
@@ -12,9 +14,9 @@ quint8 ads1256::init()
 {
 	reset();
 	if (readChipID() == 3) {
-		gInfoS() << "id read succesfully";
+		gInfo("id read succesfully");
 	} else {
-		gInfoS() << "id read failed";
+		gInfo("id read failed");
 		return 1;
 	}
 	configure(ADS1256_GAIN_64, ADS1256_100SPS);
@@ -65,7 +67,7 @@ void ads1256::dataReady()
 		}
 	}
 	if (var >= 4000000) {
-		gInfoS() << "Time out 100ms";
+		gInfo("Time out 100ms");
 	}
 //	if (DriverContext::instance().Configure()->digitalRead(DRDY_PIN) != 0) {
 //		std::this_thread::sleep_for(std::chrono::milliseconds(10));

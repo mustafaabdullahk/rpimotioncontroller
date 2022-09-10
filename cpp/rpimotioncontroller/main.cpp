@@ -9,15 +9,15 @@
 #include <grpc++/server_builder.h>
 #include <grpc++/server_context.h>
 #include <grpc/grpc.h>
+
 #include <motioncontroller.grpc.pb.h>
 #include <motioncontroller.pb.h>
 #include <thread>
 
-#include "3rdparty/debug.h"
+#include <3rdparty/debug.h>
 #include "drivercontext.h"
 #include "drivers/ads1256.h"
 #include "drivers/dac8532.h"
-#include "drivers/gpiodriver.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -34,7 +34,7 @@ void runMyServer(motioncontroller::DeviceService::Service *myserv)
 	builder.AddListeningPort(ap, grpc::InsecureServerCredentials());
 	builder.RegisterService(myserv);
 	std::unique_ptr<Server> server(builder.BuildAndStart());
-	std::cout << "Server listening on " << ap << std::endl;
+	gWarn("Server listening on %s", ap.data());
 	server->Wait();
 }
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 	loguru::g_stderr_verbosity = 3;
 	loguru::init(argc, argv);
-	gInfoS() << "cilettttt";
+	gLog("grpc server is initializing");
 	DriverContext::instance();
 	std::thread threadServer([=]() { runMyServer(new RaspberryServer); });
 	return a.exec();

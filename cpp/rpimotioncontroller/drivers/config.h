@@ -17,9 +17,11 @@ public:
 	int digitalRead(int pin);
 	int spiWriteByte(uint8_t data);
 	uint8_t spiReadByte();
+
 protected:
 	spidriver *spi;
 	gpiodriver gpio;
+
 };
 
 #endif // CONFIG_H
