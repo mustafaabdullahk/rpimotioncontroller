@@ -17,7 +17,7 @@ distversion : downloaded release version.
 - cmake
 
 ## Build 
-
+```
 source buildroot-distversion/output/host/environment-setup
 mkdir build
 popd build
@@ -25,3 +25,4 @@ cmake ..
 make all
 scp pirmc root@raspberryip:~/path
 ./pirmc
+```
