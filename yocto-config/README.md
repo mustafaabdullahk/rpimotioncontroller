@@ -40,3 +40,16 @@ bitbake core-image-full-cmdline
 
 - yocto main branch and all submodules should be match otherwise you get a parse error from bitbake.
 - theese configurations for raspberrypi 4.
+
+# Preapare Yocto SDK
+
+Ensure yocto repo, subrepos and layers same branch.
+
+- cp ~/core-mustafa-sdk-image ~/poky/meta/recipes-extended/images
+- bitbake -c populate_sdk core-image-full-cmdline
+- bitbake -c populate_sdk core-mustafa-sdk-image
+- cd ~/build/tmp/deploy/sdk
+- sh poky-musl-x86_64-core-mustafa-sdk-image-cortexa72-raspberrypi4-64-toolchain-4.0.4.sh
+- source /opt/poky/4.0.4/environment-setup-cortexa72-poky-linux-musl
+
+- [static library](https://stackoverflow.com/questions/33822927/using-an-alternative-libc-in-a-cmake-project)
